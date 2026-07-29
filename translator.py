@@ -6,7 +6,7 @@ FILE_NAME = "dictionary.json"
 
 
 def load_dictionary():                                                                  #2
-    #Reads the JSON file and deserializes it into a Python dictionary.#
+    # Reads the JSON file and deserializes it into a Python dictionary.#
     # Check if the file exists; if not, create an empty JSON file
     if not os.path.exists(FILE_NAME):
         with open(FILE_NAME, "w", encoding="utf-8") as file:
@@ -23,7 +23,7 @@ def load_dictionary():                                                          
 
 
 def save_dictionary(dictionary):
-    #Serializes the Python dictionary and writes it to the JSON file.#
+    # Serializes the Python dictionary and writes it to the JSON file.#
     with open(FILE_NAME, "w", encoding="utf-8") as file:
         json.dump(dictionary, file, ensure_ascii=False, indent=4)
 
@@ -115,6 +115,27 @@ def delete_word():
     input("\nPress Enter to continue...")
 
 
+def show_all_words():
+    print("\n--- All Dictionary Words ---")
+    dictionary = load_dictionary()
+
+    if not dictionary:
+        print("Dictionary is empty.")
+    else:
+        has_words = False
+        for lang_pair, words in dictionary.items():
+            if words:
+                has_words = True
+                print(f"\n[Language Pair: {lang_pair}]")
+                for word, translation in words.items():
+                    print(f"  • {word} -> {translation}")
+
+        if not has_words:
+            print("Dictionary is empty.")
+
+    input("\nPress Enter to continue...")
+
+
 def main():
     # Infinite loop to keep the menu active until the user decides to exit
     while True:
@@ -126,11 +147,12 @@ def main():
         print("3. French to Georgian")
         print("4. Georgian to French")
         print("5. Delete a Word")
-        print("6. Exit")
+        print("6. Show All Words")
+        print("7. Exit")
         print("==============================")
 
         # Get menu choice from user
-        choice = input("Select an option (1-6): ").strip()
+        choice = input("Select an option (1-7): ").strip()
 
         # Route the choice to the correct translation configuration
         if choice == "1":
@@ -144,6 +166,8 @@ def main():
         elif choice == "5":
             delete_word()
         elif choice == "6":
+            show_all_words()
+        elif choice == "7":
             print("Goodbye!")
             break  # Exit the while loop and terminate the program
         else:
